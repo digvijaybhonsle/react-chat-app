@@ -2,12 +2,12 @@ import jwt from "jsonwebtoken";
 
 const createTokenAndSaveCookie = (userId, res) => {
   const token = jwt.sign({ userId }, process.env.JWT_TOKEN, {
-    expiresIn: "10d",
+    expiresIn: "100d",
   });
   res.cookie("jwt", token, {
-    httpOnly: true, // xss
+    httpOnly: true, // xss attack
     secure: true,
-    sameSite: "strict", // csrf
+    sameSite: "strict", // csrf attack
   });
 };
 export default createTokenAndSaveCookie;
