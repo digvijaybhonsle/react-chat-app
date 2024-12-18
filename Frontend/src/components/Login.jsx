@@ -22,7 +22,7 @@ function Login() {
 
     // Ensure API endpoint is correct
     axios
-      .post("http://localhost:5002/api/user/login", userInfo) // Update to match your backend endpoint
+      .post("/api/user/login", userInfo) // Update to match your backend endpoint
       .then((response) => {
         if (response.data) {
           alert("Login succesfully");

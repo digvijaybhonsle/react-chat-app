@@ -31,7 +31,7 @@ function Signup() {
     };
 
     try {
-      const response = await axios.post("http://localhost:5002/api/user/signup", userInfo);
+      const response = await axios.post("/api/user/signup", userInfo);
       if (response.data) {
         toast.success("Signup successful");
         localStorage.setItem("ChatApp", JSON.stringify(response.data));
