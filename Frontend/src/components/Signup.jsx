@@ -36,7 +36,6 @@ function Signup() {
         toast.success("Signup successful");
         localStorage.setItem("ChatApp", JSON.stringify(response.data));
         setAuthUser(response.data);
-        navigate("/dashboard"); // Redirect after successful signup
       }
     } catch (error) {
       if (error.response) {

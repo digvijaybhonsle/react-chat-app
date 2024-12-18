@@ -30,6 +30,7 @@ function Login() {
           // Save data to localStorage
           localStorage.setItem("ChatApp", JSON.stringify(response.data));
           setAuthUser(response.data); // Update auth context
+          // navigate("/");
         }
       })
       .catch((error) => {
