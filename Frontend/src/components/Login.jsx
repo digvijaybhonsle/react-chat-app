@@ -20,21 +20,29 @@ function Login() {
       password: data.password,
     };
 
+    // Ensure API endpoint is correct
     axios
-      .post("/api/user/login", userInfo)
+      .post("http://localhost:5002/api/user/login", userInfo) // Update to match your backend endpoint
       .then((response) => {
         if (response.data) {
+          alert("Login succesfully");
           toast.success("Login successful");
+          // Save data to localStorage
+          localStorage.setItem("ChatApp", JSON.stringify(response.data));
+          setAuthUser(response.data); // Update auth context
         }
-        localStorage.setItem("ChatApp", JSON.stringify(response.data));
-        setAuthUser(response.data);
       })
       .catch((error) => {
         if (error.response) {
-          toast.error("Error: " + error.response.data.error);
+          // Display backend error messages
+          toast.error(`Error: ${error.response.data.error}`);
+        } else {
+          // Handle unexpected errors
+          toast.error("An unexpected error occurred. Please try again.");
         }
       });
   };
+
   return (
     <>
       <div className="flex h-screen items-center justify-center">
@@ -49,9 +57,8 @@ function Login() {
             Login with your{" "}
             <span className="text-blue-600 font-semibold">Account</span>
           </h2>
-        
 
-          {/* Email */}
+          {/* Email Field */}
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -63,18 +70,26 @@ function Login() {
               <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
             </svg>
             <input
-              type="text"
+              type="email"
               className="grow"
               placeholder="Email"
-              {...register("email", { required: true })}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                  message: "Invalid email format",
+                },
+              })}
+              autoComplete="email"
             />
           </label>
           {errors.email && (
             <span className="text-red-500 text-sm font-semibold">
-              This field is required
+              {errors.email.message}
             </span>
           )}
-          {/* Password */}
+
+          {/* Password Field */}
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -91,17 +106,24 @@ function Login() {
             <input
               type="password"
               className="grow"
-              placeholder="password"
-              {...register("password", { required: true })}
+              placeholder="Password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
+              autoComplete="current-password"
             />
           </label>
           {errors.password && (
             <span className="text-red-500 text-sm font-semibold">
-              This field is required
+              {errors.password.message}
             </span>
           )}
-          {/* Text & Button */}
 
+          {/* Submit Button */}
           <div className="flex justify-center">
             <input
               type="submit"
@@ -109,13 +131,13 @@ function Login() {
               className="text-white bg-blue-600 cursor-pointer w-full rounded-lg py-2"
             ></input>
           </div>
+
           <p>
-            Don't have any Account?{" "}
+            Don't have an account?{" "}
             <Link
-              to={"/signup"}
+              to="/signup"
               className="text-blue-500 underline cursor-pointer ml-1"
             >
-              {" "}
               Signup
             </Link>
           </p>
