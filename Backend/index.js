@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
+
 const PORT = process.env.PORT || 3001;
 const URI = process.env.MONGODB_URL;
 
@@ -36,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
     const dirPath = path.resolve();
     app.use(express.static("./Frontend/dist")); // Update to your actual build folder
     app.get("*", (req, res) => {
-        res.sendFile(path.resolve(dirPath, "Frontend", "dist", "index.html")); // Update path as needed
+        res.sendFile(path.resolve(dirPath, "./Frontend/dist", "index.html")); // Update path as needed
     });
 }
 
