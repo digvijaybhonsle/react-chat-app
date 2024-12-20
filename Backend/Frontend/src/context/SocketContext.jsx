@@ -15,7 +15,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("https://react-chat-app-24wu.onrender.com/", {
+      const socket = io("https://react-chat-app-24wu.onrender.com", {
         query: {
           userId: authUser.user._id,
         },
